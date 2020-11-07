@@ -1,0 +1,25 @@
+name: Deploy react build on push
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'backend/**'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - 'backend/**'
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci && CI=false npm run build
+        working-directory: frontend
+      - name: FTP-Deploy-Action
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:
+          username: 'gitdeploy' 
+          server: '178.128.117.202'
+          ssh_private_key: ${{ secrets.SSH_KEY }} 
+          local_path: './frontend/build/*'
+          remote_path: '/var/www/heartogether.liborb.com'
