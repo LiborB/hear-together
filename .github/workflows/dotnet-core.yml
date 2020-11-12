@@ -32,3 +32,5 @@ jobs:
         ssh_private_key: ${{ secrets.SSH_KEY }} 
         local_path: './backend/publish/*'
         remote_path: '/home/libor/HearTogether'
+        git-ftp-args: 
+          --insecure
