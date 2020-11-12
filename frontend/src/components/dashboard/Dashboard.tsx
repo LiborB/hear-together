@@ -7,8 +7,6 @@ function Dashboard() {
 	const history = useHistory();
 	function handleCreateStationClick() {
 		Axios.post<number>("station/create").then((response) => {
-			console.log(response.data);
-
 			history.push({
 				pathname: `/station/${response.data}`,
 			});
@@ -17,7 +15,7 @@ function Dashboard() {
 	return (
 		<div className="flex justify-center mt-20">
 			<Button onClick={handleCreateStationClick} outlined>
-				Create a stationt
+				Create a station
 			</Button>
 		</div>
 	);

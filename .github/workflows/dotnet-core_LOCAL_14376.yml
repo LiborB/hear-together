@@ -1,0 +1,35 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'frontend/**'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - 'frontend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.302
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Publish
+      run: dotnet publish --configuration Release --no-restore -o publish
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      with:
+        ftp-server: ${{ secrets.FTP_URL }}
+        ftp-username: ${{ secrets.FTP_USERNAME }}
+        ftp-password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./backend/publish

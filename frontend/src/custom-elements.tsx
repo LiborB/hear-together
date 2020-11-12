@@ -31,7 +31,7 @@ export function Input(props: InputProps) {
 	) : (
 		<input
 			{...slicedProps}
-			className={`px-3 py-3 rounded-md bg-gray-800 border-gray-800 text-white focus:border-teal-300 border-2 outline-none placeholder-white w-full ${slicedProps.className}`}
+			className={`px-3 py-3 rounded-md bg-gray-800 border-gray-800 text-white focus:border-teal-300 border-2 outline-none w-full ${slicedProps.className}`}
 		></input>
 	);
 }
