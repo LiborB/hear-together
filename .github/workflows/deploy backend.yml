@@ -1,0 +1,34 @@
+name: deploy backend on push or pull
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'frontend/**'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - 'frontend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.302
+    - name: Publish
+      run: dotnet publish --configuration Release -o publish 
+    - name: FTP-Deploy-Action
+      uses: wlixcc/SFTP-Deploy-Action@v1.0
+      with:
+        username: 'gitdeploy' 
+        server: '178.128.117.202'
+        ssh_private_key: ${{ secrets.SSH_KEY }} 
+        local_path: './backend/publish/*'
+        remote_path: '/home/libor/HearTogether'
