@@ -22,14 +22,13 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.302
-    - name: Install dependencies
-      run: dotnet restore
     - name: Publish
-      run: dotnet publish --configuration Release --no-restore -o publish
+      run: dotnet publish --configuration Release -o publish 
     - name: FTP-Deploy-Action
-      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      uses: wlixcc/SFTP-Deploy-Action@v1.0
       with:
-        ftp-server: ${{ secrets.FTP_URL }}
-        ftp-username: ${{ secrets.FTP_USERNAME }}
-        ftp-password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./backend/publish
+        username: 'gitdeploy' 
+        server: '178.128.117.202'
+        ssh_private_key: ${{ secrets.SSH_KEY }} 
+        local_path: './backend/publish/*'
+        remote_path: '/home/libor/HearTogether'
