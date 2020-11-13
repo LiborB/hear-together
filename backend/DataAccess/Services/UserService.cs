@@ -54,7 +54,7 @@ namespace DataAccess.Services
             {
                 Id = user.Id,
                 Token = user.Token,
-                Username = user.Username
+                Username = user.Username + "test please remove me"
             };
         }
 
