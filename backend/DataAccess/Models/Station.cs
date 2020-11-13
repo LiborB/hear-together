@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,5 +14,8 @@ namespace DataAccess.Models
         [ForeignKey("Owner")] [Required] public int OwnerId { get; set; }
         public bool Private { get; set; }
         public DateTime Created { get; set; }
+        
+        public ICollection<StationMessage> StationMessages { get; set; }
+        public ICollection<StationListener> StationListeners { get; set; }
     }
 }

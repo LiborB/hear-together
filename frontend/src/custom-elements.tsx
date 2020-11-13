@@ -13,7 +13,7 @@ export function Button(props: ButtonProps) {
 	) : (
 		<button
 			{...slicedProps}
-			className={`bg-transparent focus:outline-none border border-teal-400 hover:text-teal-300 hover:border-teal-300 text-teal-300 px-4 py-1 ${slicedProps.className}`}
+			className={`bg-transparent focus:outline-none border border-teal-400 hover:text-teal-300 hover:border-teal-300 text-teal-400 px-4 py-1 ${slicedProps.className}`}
 		></button>
 	);
 }

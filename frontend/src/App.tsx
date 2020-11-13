@@ -12,6 +12,7 @@ import { IUser } from "./models/IUser";
 import Navbar from "./components/nav/Navbar";
 import Dashboard from "./components/dashboard/Dashboard";
 import Station from "./components/station/Station";
+import Profile from "./components/profile/Profile";
 
 function App() {
 	const isLoggedIn = useSelector(
@@ -40,9 +41,9 @@ function App() {
 		}
 	}, []);
 	return (
-		<div className="bg-gray-900 h-full text-white">
+		<div className="h-full text-white pb-10">
 			<Navbar></Navbar>
-			<div className="pt-10">
+			<div className="pt-20">
 				<Switch>
 					<Route path="/login">
 						<Login />
@@ -57,6 +58,9 @@ function App() {
 							</Route>
 							<Route path="/station/:stationId">
 								<Station></Station>
+							</Route>
+							<Route path="/profile/:userId">
+								<Profile></Profile>
 							</Route>
 						</Fragment>
 					)}

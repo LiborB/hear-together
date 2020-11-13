@@ -19,5 +19,7 @@ namespace DataAccess.Models
         public string Token { get; set; }
         
         public virtual ICollection<Station> Stations { get; set; }
+        public ICollection<StationListener> StationListeners { get; set; }
+        public ICollection<StationMessage> StationMessages { get; set; }
     }
 }

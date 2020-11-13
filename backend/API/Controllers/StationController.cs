@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DataAccess.Services;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTO.Station;
@@ -39,6 +40,15 @@ namespace API.Controllers
             var user = HandleAuthGetUser();
             var stationDetail = _stationService.GetStationDetail(stationId);
             return Ok(stationDetail);
+        }
+
+        [Route("getallstations")]
+        [HttpGet]
+        public ActionResult<List<StationSimpleDTO>> GetAllStations(int skip = 0, int take = 0)
+        {
+            var user = HandleAuthGetUser();
+            var stations = _stationService.GetAllStations(skip, take);
+            return Ok(stations);
         }
     }
 }

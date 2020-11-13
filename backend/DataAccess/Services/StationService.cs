@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DataAccess.Models;
 using Shared.DTO.Station;
@@ -58,6 +59,26 @@ namespace DataAccess.Services
             stationDetail.OwnerId = station.OwnerId;
             stationDetail.OwnerUsername = station.Owner.Username;
             return stationDetail;
+        }
+
+        public List<StationSimpleDTO> GetAllStations(int skip, int take)
+        {
+            var stations = _context.Stations.Skip(skip);
+            if (take > 0)
+            {
+                stations = stations.Take(take);
+            }
+
+            var stationSimples = stations.Select(x => new StationSimpleDTO()
+            {
+                Id = x.Id,
+                Description = x.Description,
+                Name = x.Name,
+                OwnerId = x.OwnerId,
+                OwnerUsername = x.Owner.Username,
+                NumberOfListeners = _context.StationListeners.Count(listener => listener.StationId == x.Id)
+            });
+            return stationSimples.ToList();
         }
     }
 }
