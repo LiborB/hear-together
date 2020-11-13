@@ -17,19 +17,23 @@ function Navbar() {
 		history.push("/signup");
 	}
 	function handleLogoClick() {
-		history.push("/dashboard");
+		if (isLoggedIn === true) {
+			history.push("/dashboard");
+		} else if (isLoggedIn === false) {
+			history.push("/");
+		}
 	}
 	return (
 		<div className="flex fixed h-4 justify-between w-full px-5 pt-3">
 			<div onClick={handleLogoClick} className="text-xl cursor-pointer">
 				Hear Together
 			</div>
-			{isLoggedIn && (
+			{isLoggedIn === true && (
 				<div className="flex">
 					<UserMenu></UserMenu>
 				</div>
 			)}
-			{!isLoggedIn && (
+			{isLoggedIn === false && (
 				<div>
 					<button
 						onClick={handleLoginClick}

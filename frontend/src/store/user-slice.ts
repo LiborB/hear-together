@@ -3,14 +3,14 @@ import { act } from "react-dom/test-utils";
 import { IUser } from "../models/IUser";
 
 export interface UserState {
-    isLoggedIn: boolean,
+    isLoggedIn: boolean | undefined,
     currentUser: IUser
 }
 
 export const userSlice = createSlice({
     name: "user",
     initialState: {
-        isLoggedIn: false,
+        isLoggedIn: undefined,
         currentUser: {} as IUser
     } as UserState,
     reducers: {

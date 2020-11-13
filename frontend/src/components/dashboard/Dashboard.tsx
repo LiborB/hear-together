@@ -1,11 +1,19 @@
 import Axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Button } from "../../custom-elements";
+import { RootState } from "../../store/store";
 import StationList from "./StationList";
 
 function Dashboard() {
 	const history = useHistory();
+	const { isLoggedIn } = useSelector((state: RootState) => state.userReducer);
+	useEffect(() => {
+		if (isLoggedIn === false) {
+			history.push("/login");
+		}
+	}, [isLoggedIn]);
 	function handleCreateStationClick() {
 		Axios.post<number>("station/create").then((response) => {
 			history.push({
@@ -20,7 +28,7 @@ function Dashboard() {
 					Create a station
 				</Button>
 			</div>
-			<StationList></StationList>
+			{isLoggedIn && <StationList></StationList>}
 		</div>
 	);
 }

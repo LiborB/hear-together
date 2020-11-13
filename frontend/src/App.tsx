@@ -37,7 +37,10 @@ function App() {
 				})
 				.catch(() => {
 					localStorage.removeItem("user_token");
+					dispatch(setIsLoggedIn(false));
 				});
+		} else {
+			dispatch(setIsLoggedIn(false));
 		}
 	}, []);
 	return (
@@ -51,19 +54,15 @@ function App() {
 					<Route path="/signup">
 						<Signup></Signup>
 					</Route>
-					{isLoggedIn && (
-						<Fragment>
-							<Route path="/dashboard">
-								<Dashboard></Dashboard>
-							</Route>
-							<Route path="/station/:stationId">
-								<Station></Station>
-							</Route>
-							<Route path="/profile/:userId">
-								<Profile></Profile>
-							</Route>
-						</Fragment>
-					)}
+					<Route path="/dashboard">
+						<Dashboard></Dashboard>
+					</Route>
+					<Route path="/station/:stationId">
+						<Station></Station>
+					</Route>
+					<Route path="/profile/:userId">
+						<Profile></Profile>
+					</Route>
 
 					<Route path="/">
 						<Home />
