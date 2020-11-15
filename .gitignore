@@ -391,4 +391,5 @@ packages/react-devtools-scheduling-profiler/dist
 tailwind.output.css
 
 backend/API/live-connection-string.txt
+backend/DataAccess/Data/*
 backend/API/appsettings.json

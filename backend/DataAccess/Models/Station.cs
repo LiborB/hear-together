@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,5 +18,6 @@ namespace DataAccess.Models
         
         public ICollection<StationMessage> StationMessages { get; set; }
         public ICollection<StationListener> StationListeners { get; set; }
+        public ICollection<StationSong> StationSongs { get; set; }
     }
 }
