@@ -392,3 +392,4 @@ tailwind.output.css
 
 backend/API/live-connection-string.txt
 backend/DataAccess/Data/*
+backend/API/appsettings.json
