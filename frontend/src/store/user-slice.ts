@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { act } from "react-dom/test-utils";
-import { IUser } from "../models/IUser";
+import { IUser } from "../models/user/IUser";
 
 export interface UserState {
     isLoggedIn: boolean | undefined,

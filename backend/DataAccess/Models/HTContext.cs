@@ -13,5 +13,7 @@ namespace DataAccess.Models
         public DbSet<Station> Stations { get; set; }
         public DbSet<StationListener> StationListeners { get; set; }
         public DbSet<StationMessage> StationMessages { get; set; }
+        public DbSet<Song> Songs { get; set; }
+        public DbSet<StationSong> StationSongs { get; set; }
     }
 }
