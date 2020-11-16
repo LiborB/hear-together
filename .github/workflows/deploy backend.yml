@@ -24,6 +24,14 @@ jobs:
         dotnet-version: 3.1.302
     - name: Publish
       run: dotnet publish --configuration Release -o publish 
+    - name: stop .net core server
+      uses: appleboy/ssh-action@master
+      with:
+        host: 178.128.117.202
+        username: 'gitdeploy'
+        key: ${{ secrets.SSH_key }}
+        port: 22
+        script: kill $(ps aux | grep 'API.dll' | awk '{print $2}')
     - name: FTP-Deploy-Action
       uses: wlixcc/SFTP-Deploy-Action@v1.0
       with:
@@ -32,3 +40,13 @@ jobs:
         ssh_private_key: ${{ secrets.SSH_KEY }} 
         local_path: './backend/publish/*'
         remote_path: '/home/libor/HearTogether'
+    - name: start .net core server
+      uses: appleboy/ssh-action@master
+      with:
+        host: 178.128.117.202
+        username: 'gitdeploy'
+        key: ${{ secrets.SSH_key }}
+        port: 22
+        script: |
+          tmux a
+          ./HearTogether/start.sh
