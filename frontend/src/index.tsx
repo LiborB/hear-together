@@ -10,9 +10,8 @@ import Axios from "axios";
 import { store } from "./store/store";
 import apiSettings from "./api-settings.json";
 
-
 if (window.location.hostname.endsWith("heartogether.liborb.com")) {
-	Axios.defaults.baseURL = "api/";
+	Axios.defaults.baseURL = "heartogether.liborb.com/api/";
 } else {
 	Axios.defaults.baseURL = "https://localhost:5001/api/";
 }
