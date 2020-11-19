@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using DataAccess.Hubs;
 
 namespace API
 {
@@ -35,7 +36,9 @@ namespace API
                 options.UseSqlServer(Configuration.GetConnectionString("HearTogetherDatabase")));
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );;
+            );
+            ;
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,14 +48,19 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+#if DEBUG
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000"));
+#endif
             app.UseHttpsRedirection();
             app.UseRouting();
-
             app.UseAuthorization();
-            
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<StationHub>("/stationhub");
+            });
         }
     }
 }

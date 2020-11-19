@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DataAccess.Services;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTO.Station;
@@ -49,6 +50,15 @@ namespace API.Controllers
             var user = HandleAuthGetUser();
             var stations = _stationService.GetAllStations(skip, take);
             return Ok(stations);
+        }
+
+        [Route("getlisteners/{stationId}")]
+        [HttpGet]
+        public async Task<ActionResult<List<ListenerDetailDTO>>> GetStationListeners(int stationId)
+        {
+            var user = HandleAuthGetUser();
+            var listeners = await _stationService.GetStationListenersAsync(stationId);
+            return Ok(listeners);
         }
     }
 }

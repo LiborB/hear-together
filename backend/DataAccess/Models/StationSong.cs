@@ -1,4 +1,6 @@
-﻿namespace DataAccess.Models
+﻿using System;
+
+namespace DataAccess.Models
 {
     public class StationSong
     {
@@ -9,5 +11,9 @@
         public int StationId { get; set; }
         public int AddedByUserId { get; set; }
         public User AddedByUser { get; set; }
+        public bool IsPlaying { get; set; }
+        public int CurrentSongPosition { get; set; }
+        public DateTime Created { get; set; }
+        public bool FinishedPlaying { get; set; }
     }
 }

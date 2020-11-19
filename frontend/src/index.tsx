@@ -9,12 +9,19 @@ import { Provider } from "react-redux";
 import Axios from "axios";
 import { store } from "./store/store";
 import apiSettings from "./api-settings.json";
+import signalR from "@microsoft/signalr";
+import { hubConnection, startConnection } from "./store/station-connection";
 
+let signalrUrl = "";
 if (window.location.hostname.endsWith("heartogether.liborb.com")) {
 	Axios.defaults.baseURL = "https://heartogether.liborb.com/api/";
+	signalrUrl = "https://heartogether.liborb.com/stationhub";
 } else {
 	Axios.defaults.baseURL = "https://localhost:5001/api/";
+	signalrUrl = "https://localhost:5001/stationhub";
 }
+export const hubUrl = signalrUrl;
+startConnection(hubUrl);
 
 ReactDOM.render(
 	<React.StrictMode>

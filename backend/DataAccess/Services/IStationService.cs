@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Shared.DTO.Station;
 
 namespace DataAccess.Services
@@ -8,7 +9,9 @@ namespace DataAccess.Services
         int CreateStation(int userId);
         void UpdateStation(UpdateStationDTO updateStation);
         StationDetailDTO GetStationDetail(int stationId);
-
         List<StationSimpleDTO> GetAllStations(int skip, int take);
+        Task<List<ListenerDetailDTO>> GetStationListenersAsync(int stationId);
+        Task AddStationListenerAsync(int stationId, int userId);
+        Task RemoveStationListenerAsync(int stationId, int userId);
     }
 }

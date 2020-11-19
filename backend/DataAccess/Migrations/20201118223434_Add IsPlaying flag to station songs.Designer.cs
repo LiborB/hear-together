@@ -4,14 +4,16 @@ using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HTContext))]
-    partial class HTContextModelSnapshot : ModelSnapshot
+    [Migration("20201118223434_Add IsPlaying flag to station songs")]
+    partial class AddIsPlayingflagtostationsongs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,9 +152,6 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("CurrentSongPosition")
                         .HasColumnType("int");
-
-                    b.Property<bool>("FinishedPlaying")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsPlaying")
                         .HasColumnType("bit");

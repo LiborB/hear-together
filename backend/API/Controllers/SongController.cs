@@ -1,4 +1,5 @@
-﻿using DataAccess.Services;
+﻿using System.Threading.Tasks;
+using DataAccess.Services;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTO.Song;
 
@@ -15,10 +16,10 @@ namespace API.Controllers
 
         [Route("addbyurl")]
         [HttpPost]
-        public ActionResult<SongDetailDTO> AddSongByUrl([FromBody] AddUrlSongDTO addSong)
+        public async Task<ActionResult<SongDetailDTO>> AddSongByUrl([FromBody] AddUrlSongDTO addSong)
         {
             var user = HandleAuthGetUser();
-            var songDetail = _songService.AddSongByUrl(addSong, user.Id);
+            var songDetail = await _songService.AddSongByUrl(addSong, user.Id);
             return Ok(songDetail);
         }
     }

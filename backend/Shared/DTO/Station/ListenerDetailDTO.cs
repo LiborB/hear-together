@@ -3,6 +3,6 @@
     public class ListenerDetailDTO
     {
         public int UserId { get; set; }
-        public int Username { get; set; }
+        public string Username { get; set; }
     }
 }
