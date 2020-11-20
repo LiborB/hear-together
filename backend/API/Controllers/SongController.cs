@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DataAccess.Services;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTO.Song;
@@ -16,11 +17,31 @@ namespace API.Controllers
 
         [Route("addbyurl")]
         [HttpPost]
-        public async Task<ActionResult<SongDetailDTO>> AddSongByUrl([FromBody] AddUrlSongDTO addSong)
+        public async Task<ActionResult> AddSongByUrl([FromBody] AddUrlSongDTO addSong)
         {
             var user = HandleAuthGetUser();
-            var songDetail = await _songService.AddSongByUrl(addSong, user.Id);
-            return Ok(songDetail);
+            await _songService.AddSongByUrl(addSong, user.Id);
+            return Ok();
         }
+        
+        [Route("getqueuedsongs/{stationId}")]
+        [HttpGet]
+        public async Task<ActionResult<List<QueuedSongDTO>>> GetQueuedSongs(int stationId)
+        {
+            HandleAuthGetUser();
+            var songs = await _songService.GetQueuedSongs(stationId);
+            return Ok(songs);
+        }
+
+        
+        [Route("getplayingsong/{stationId}")]
+        [HttpGet]
+        public async Task<ActionResult<PlayingSongDTO>> GetPlayingSong(int stationId)
+        {
+            HandleAuthGetUser();
+            var song = await _songService.GetCurrentPlayingSong(stationId);
+            return Ok(song);
+        }
+        
     }
 }

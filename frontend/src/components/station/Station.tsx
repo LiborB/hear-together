@@ -57,27 +57,20 @@ function Station() {
 					+stationId
 				)
 				.then((response) => {
-					console.log("successfully joined room " + response);
 					setLoaded(true);
 				});
 		}
 
 		return () => {
 			if (isConnected) {
-				hubConnection
-					.invoke(
-						"LeaveStationRoom",
-						{
-							userId: currentUser.id,
-							username: currentUser.username,
-						} as IListenerDetail,
-						+stationId
-					)
-					.then(() => {
-						console.log("====================================");
-						console.log("INVOKE LEAVE STATION");
-						console.log("====================================");
-					});
+				hubConnection.invoke(
+					"LeaveStationRoom",
+					{
+						userId: currentUser.id,
+						username: currentUser.username,
+					} as IListenerDetail,
+					+stationId
+				);
 			}
 		};
 	}, [isConnected]);
@@ -119,7 +112,7 @@ function Station() {
 				</div>
 				<div className="flex justify-evenly">
 					<div className="border w-full border-gray-600">
-						<SongBox></SongBox>
+						<SongBox stationId={+stationId}></SongBox>
 					</div>
 					<div className="border w-full border-gray-600">
 						<ChatBox

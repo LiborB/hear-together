@@ -1,5 +1,7 @@
 import Axios, { AxiosResponse } from "axios"
 import { stat } from "fs";
+import { IPlayingSong } from "../models/song/IPlayingSong";
+import { IQueuedSong } from "../models/song/IQueuedSong";
 import IListenerDetail from "../models/station/IListenerDetail";
 import IStationDetail from "../models/station/IStationDetail";
 import IStationSimple from "../models/station/IStationSimple";

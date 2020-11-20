@@ -26,10 +26,7 @@ export default function SearchBar(props: Props) {
 					.then((response) => {
 						setResponseMessage({
 							error: false,
-							message:
-								"Successfully added " +
-								response.data.title +
-								" to the queue",
+							message: "Successfully added song to queue",
 						});
 					})
 					.catch((error) => {
