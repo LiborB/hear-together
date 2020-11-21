@@ -50,6 +50,8 @@ namespace API
             }
 #if DEBUG
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000"));
+#else
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://heartogether.liborb.com"));
 #endif
             app.UseHttpsRedirection();
             app.UseRouting();
