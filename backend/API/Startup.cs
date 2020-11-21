@@ -48,11 +48,7 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
-#if DEBUG
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000"));
-#else
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://heartogether.liborb.com", "https://www.heartogether.liborb.com"));
-#endif
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin());
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
