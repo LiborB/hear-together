@@ -1,4 +1,4 @@
-import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { hubUrl } from "..";
 import { IPlayingSong } from "../models/song/IPlayingSong";
 import { IQueuedSong } from "../models/song/IQueuedSong";
@@ -11,7 +11,8 @@ export let hubConnection: HubConnection;
 export function startConnection(url: string) {
     hubConnection = new HubConnectionBuilder()  
         .withUrl(url, {
-            skipNegotiation: true
+            skipNegotiation: true,
+            transport: HttpTransportType.WebSockets
         })
         .configureLogging(LogLevel.Information)
         .build();
