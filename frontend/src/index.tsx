@@ -14,7 +14,7 @@ import { hubConnection, startConnection } from "./store/station-connection";
 
 let signalrUrl = "";
 if (window.location.hostname.endsWith("heartogether.liborb.com")) {
-    Axios.defaults.baseURL = "https://heartogether.liborb.com/api/";
+    Axios.defaults.baseURL = "https://www.heartogether.liborb.com/api/";
     signalrUrl = "https://www.heartogether.liborb.com/stationhub";
 } else {
     Axios.defaults.baseURL = "https://localhost:5001/api/";
