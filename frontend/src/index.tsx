@@ -14,24 +14,24 @@ import { hubConnection, startConnection } from "./store/station-connection";
 
 let signalrUrl = "";
 if (window.location.hostname.endsWith("heartogether.liborb.com")) {
-	Axios.defaults.baseURL = "https://heartogether.liborb.com/api/";
-	signalrUrl = "https://heartogether.liborb.com/stationhub";
+    Axios.defaults.baseURL = "https://heartogether.liborb.com/api/";
+    signalrUrl = "https://www.heartogether.liborb.com/stationhub";
 } else {
-	Axios.defaults.baseURL = "https://localhost:5001/api/";
-	signalrUrl = "https://localhost:5001/stationhub";
+    Axios.defaults.baseURL = "https://localhost:5001/api/";
+    signalrUrl = "https://localhost:5001/stationhub";
 }
 export const hubUrl = signalrUrl;
 startConnection(hubUrl);
 
 ReactDOM.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</Provider>
-	</React.StrictMode>,
-	document.getElementById("root")
+    <React.StrictMode>
+        <Provider store={store}>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
