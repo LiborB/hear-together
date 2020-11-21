@@ -9,8 +9,10 @@ import { store } from "./store";
 
 export let hubConnection: HubConnection;
 export function startConnection(url: string) {
-    hubConnection = new HubConnectionBuilder()
-        .withUrl(url)
+    hubConnection = new HubConnectionBuilder()  
+        .withUrl(url, {
+            skipNegotiation: true
+        })
         .configureLogging(LogLevel.Information)
         .build();
     hubConnection.start().then(() => {
