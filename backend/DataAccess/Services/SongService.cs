@@ -24,6 +24,45 @@ namespace DataAccess.Services
             _hub = stationHub;
         }
 
+        private async Task AddExistingSong(int songId, int stationId, int addedByUserId)
+        {
+            var anySongPlaying =
+                _context.StationSongs.Any(x => x.StationId == stationId && x.IsPlaying);
+            var song = _context.Songs.First(x => x.Id == songId);
+            var stationSong = new StationSong()
+            {
+                IsPlaying = !anySongPlaying,
+                StationId = stationId,
+                AddedByUserId = addedByUserId,
+                Created = DateTime.UtcNow,
+                SongId = songId
+            };
+            _context.StationSongs.Add(stationSong);
+            await _context.SaveChangesAsync();
+
+            if (!anySongPlaying)
+            {
+                var playSong = new PlayingSongDTO
+                {
+                    Duration = song.Duration,
+                    Id = stationSong.Id,
+                    Title = song.Title,
+                    SongBase64 = await GetSongBase64(song.Filename)
+                };
+
+                await _hub.Clients.Group(stationId.ToString()).SendAsync("PlaySong", playSong);
+            }
+            else
+            {
+                var queuedSong = new QueuedSongDTO
+                {
+                    Duration = song.Duration,
+                    Id = stationSong.Id,
+                    Title = song.Title
+                };
+                await _hub.Clients.Group(stationId.ToString()).SendAsync("SongAddedToQueue", queuedSong);
+            }
+        }
         public async Task AddSongByUrl(AddUrlSongDTO addSong, int addedByUserId)
         {
             var dataPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).FullName, "Data");
@@ -34,39 +73,7 @@ namespace DataAccess.Services
                 _context.StationSongs.Any(x => x.StationId == addSong.StationId && x.IsPlaying);
             if (existingSong != null)
             {
-                var stationSong = new StationSong()
-                {
-                    IsPlaying = !anySongPlaying,
-                    StationId = addSong.StationId,
-                    AddedByUserId = addedByUserId,
-                    Created = DateTime.UtcNow,
-                    SongId = existingSong.Id
-                };
-                _context.StationSongs.Add(stationSong);
-                await _context.SaveChangesAsync();
-
-                if (!anySongPlaying)
-                {
-                    var playSong = new PlayingSongDTO
-                    {
-                        Duration = existingSong.Duration,
-                        Id = stationSong.Id,
-                        Title = existingSong.Title,
-                        SongBase64 = await GetSongBase64(existingSong.Filename)
-                    };
-
-                    await _hub.Clients.Group(addSong.StationId.ToString()).SendAsync("PlaySong", playSong);
-                }
-                else
-                {
-                    var queuedSong = new QueuedSongDTO
-                    {
-                        Duration = existingSong.Duration,
-                        Id = stationSong.Id,
-                        Title = existingSong.Title
-                    };
-                    await _hub.Clients.Group(addSong.StationId.ToString()).SendAsync("SongAddedToQueue", queuedSong);
-                }
+                await AddExistingSong(existingSong.Id, addSong.StationId, addedByUserId);
             }
             else
             {
@@ -130,16 +137,16 @@ namespace DataAccess.Services
             }
         }
 
-        public async Task<List<QueuedSongDTO>> GetQueuedSongs(int stationId)
+        public IEnumerable<QueuedSongDTO> GetQueuedSongs(int stationId)
         {
             var songs = _context.StationSongs.Include(x => x.Song)
                 .Where(x => x.StationId == stationId && !x.FinishedPlaying && !x.IsPlaying);
-            return await songs.Select(x => new QueuedSongDTO()
+            return songs.Select(x => new QueuedSongDTO()
             {
                 Duration = x.Song.Duration,
                 Id = x.Id,
                 Title = x.Song.Title
-            }).ToListAsync();
+            });
         }
 
         public async Task<PlayingSongDTO> FinishPlayingSong(int stationSongId, int stationId)
@@ -149,7 +156,7 @@ namespace DataAccess.Services
             stationSong.FinishedPlaying = true;
             await _context.SaveChangesAsync();
             var nextInQueue = _context.StationSongs.Include(x => x.Song).Where(x =>
-                x.StationId == stationId && x.Id != stationSongId && !x.FinishedPlaying).OrderByDescending(x => x.Created).FirstOrDefault();
+                x.StationId == stationId && x.Id != stationSongId && !x.FinishedPlaying).OrderBy(x => x.Created).FirstOrDefault();
             if (nextInQueue != null)
             {
                 var playingSong = new PlayingSongDTO
@@ -210,6 +217,22 @@ namespace DataAccess.Services
             }
 
             return null;
+        }
+
+        public IEnumerable<SongSearchItemDTO> SearchSongs(string query)
+        {
+            var songs = _context.Songs.Where(x => x.Title.ToUpper().Contains(query.ToUpper()));
+            return songs.Select(x => new SongSearchItemDTO()
+            {
+                Id = x.Id,
+                Duration = x.Duration,
+                Title = x.Title
+            });
+        }
+
+        public async Task AddToQueue(int songId, int stationId, int userId)
+        {
+            await AddExistingSong(songId, stationId, userId);
         }
     }
 }

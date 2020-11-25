@@ -26,10 +26,19 @@ namespace API.Controllers
         
         [Route("getqueuedsongs/{stationId}")]
         [HttpGet]
-        public async Task<ActionResult<List<QueuedSongDTO>>> GetQueuedSongs(int stationId)
+        public ActionResult<IEnumerable<QueuedSongDTO>> GetQueuedSongs(int stationId)
         {
             HandleAuthGetUser();
-            var songs = await _songService.GetQueuedSongs(stationId);
+            var songs = _songService.GetQueuedSongs(stationId);
+            return Ok(songs);
+        }
+
+        [Route("search")]
+        [HttpGet]
+        public ActionResult<IEnumerable<SongSearchItemDTO>> SearchSongs(string query)
+        {
+            HandleAuthGetUser();
+            var songs = _songService.SearchSongs(query);
             return Ok(songs);
         }
 
@@ -41,6 +50,15 @@ namespace API.Controllers
             HandleAuthGetUser();
             var song = await _songService.GetCurrentPlayingSong(stationId);
             return Ok(song);
+        }
+
+        [Route("addtoqueue/{songId}/{stationId}")]
+        [HttpGet]
+        public async Task<ActionResult> AddSongToQueue(int songId, int stationId)
+        {
+            var user = HandleAuthGetUser();
+            await _songService.AddToQueue(songId, stationId, user.Id);
+            return Ok();
         }
         
     }

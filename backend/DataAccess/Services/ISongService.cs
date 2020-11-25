@@ -8,7 +8,9 @@ namespace DataAccess.Services
     {
         Task AddSongByUrl(AddUrlSongDTO addSong, int addedByUserId);
         Task<PlayingSongDTO> GetCurrentPlayingSong(int stationId);
-        Task<List<QueuedSongDTO>> GetQueuedSongs(int stationId);
+        IEnumerable<QueuedSongDTO> GetQueuedSongs(int stationId);
         Task<PlayingSongDTO> FinishPlayingSong(int stationSongId, int stationId);
+        IEnumerable<SongSearchItemDTO> SearchSongs(string query);
+        Task AddToQueue(int songId, int stationId, int userId);
     }
 }

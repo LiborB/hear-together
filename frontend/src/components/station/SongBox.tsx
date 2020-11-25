@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactHowler from "react-howler";
 import { useDispatch, useSelector } from "react-redux";
 import SongService from "../../services/SongService";
@@ -15,6 +15,8 @@ export default function SongBox(props: Props) {
 		(state: RootState) => state.connectionReducier
 	);
 	const dispatch = useDispatch();
+	const songRef = useRef<ReactHowler>(null);
+	const [songDuration, setSongDuration] = useState(0);
 
 	useEffect(() => {
 		SongService.getCurrentPlayingSong(props.stationId).then((response) => {
@@ -23,30 +25,35 @@ export default function SongBox(props: Props) {
 			});
 			dispatch(playSong(response.data));
 		});
+		setInterval(() => {
+			if (songRef.current) {
+				setSongDuration(songRef.current.seek());
+			}
+		}, 1000);
 	}, []);
 
 	function skipClick() {
 		hubConnection.send("FinishSong", songPlaying.id, props.stationId);
 	}
 
-	useEffect(() => {
-		if (songPlaying?.id > 0) {
-			console.log("====================================");
-			console.log(songPlaying.songBase64);
-			console.log("====================================");
-		}
-	}, [songPlaying]);
+	function handleSongFinish() {
+		hubConnection.send("FinishSong", songPlaying.id, props.stationId);
+	}
+
 	return (
 		<div>
 			<div>
 				{songPlaying?.id > 0 && (
 					<ReactHowler
+						ref={songRef}
 						html5
 						playing
 						src={songPlaying.songBase64}
+						onEnd={handleSongFinish}
 					></ReactHowler>
 				)}
 				current song: {songPlaying?.title}
+				{}
 				<button onClick={skipClick}>skip</button>
 			</div>
 			{songsInQueue.map((song) => (
@@ -54,6 +61,9 @@ export default function SongBox(props: Props) {
 					{song.title} - {song.id}
 				</div>
 			))}
+			<div>
+				{songDuration} / {songRef.current?.duration()}
+			</div>
 		</div>
 	);
 }
