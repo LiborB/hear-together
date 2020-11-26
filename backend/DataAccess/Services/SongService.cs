@@ -79,6 +79,10 @@ namespace DataAccess.Services
             {
                 var youtube = new YoutubeClient();
                 var video = await youtube.Videos.GetAsync(addSong.YoutubeUrl);
+                if (video.Duration.TotalMinutes > 10)
+                {
+                    throw new Exception("Song must be under 10 minutes long.");
+                }
                 var manifest = await youtube.Videos.Streams.GetManifestAsync(video.Id);
                 var streamInfo = manifest.GetAudioOnly().WithHighestBitrate();
                 if (streamInfo != null)

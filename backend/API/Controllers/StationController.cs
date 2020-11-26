@@ -49,7 +49,7 @@ namespace API.Controllers
         public ActionResult<List<StationSimpleDTO>> GetAllStations(int skip = 0, int take = 0)
         {
             var user = HandleAuthGetUser();
-            var stations = _stationService.GetAllStations(skip, take);
+            var stations = _stationService.GetAllStations(user.Id, skip, take);
             return Ok(stations);
         }
 

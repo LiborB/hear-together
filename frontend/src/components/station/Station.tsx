@@ -112,7 +112,12 @@ function Station() {
 				</div>
 				<div className="flex justify-evenly">
 					<div className="border w-full border-gray-600">
-						<SongBox stationId={+stationId}></SongBox>
+						<SongBox
+							isUserOwner={
+								stationDetail.ownerId === currentUser.id
+							}
+							stationId={+stationId}
+						></SongBox>
 					</div>
 					<div className="border w-full border-gray-600">
 						<ChatBox

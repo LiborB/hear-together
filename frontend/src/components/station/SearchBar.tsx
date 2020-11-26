@@ -72,6 +72,8 @@ export default function SearchBar(props: Props) {
 			});
 		});
 		setIsComponentVisible(false);
+		setSearchValue("");
+		setFoundSongs([]);
 	}
 	return (
 		<div className="w-full">

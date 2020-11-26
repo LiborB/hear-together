@@ -9,7 +9,7 @@ namespace DataAccess.Services
         int CreateStation(int userId);
         void UpdateStation(UpdateStationDTO updateStation);
         StationDetailDTO GetStationDetail(int stationId);
-        List<StationSimpleDTO> GetAllStations(int skip, int take);
+        List<StationSimpleDTO> GetAllStations(int userId, int skip, int take);
         Task<List<ListenerDetailDTO>> GetStationListenersAsync(int stationId);
         Task AddStationListenerAsync(int stationId, int userId);
         Task RemoveStationListenerAsync(int stationId, int userId);

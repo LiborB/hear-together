@@ -65,9 +65,9 @@ namespace DataAccess.Services
             return stationDetail;
         }
 
-        public List<StationSimpleDTO> GetAllStations(int skip, int take)
+        public List<StationSimpleDTO> GetAllStations(int userId, int skip, int take)
         {
-            var stations = _context.Stations.Skip(skip);
+            var stations = _context.Stations.Where(x => x.OwnerId == userId || !x.Private).Skip(skip);
             if (take > 0)
             {
                 stations = stations.Take(take);
