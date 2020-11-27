@@ -105,29 +105,36 @@ function Station() {
 	}
 
 	return (
-		<div className="flex justify-center">
-			<div className="flex flex-col pr-5 max-w-6xl w-full">
-				<div className="flex pb-2">
+		<div className="flex justify-center sm:flex-col">
+			<div className="flex flex-col pr-5 max-w-6xl w-full sm:pr-0">
+				<div className="flex pb-2 pt-8">
 					<SearchBar stationId={+stationId}></SearchBar>
 				</div>
-				<div className="flex justify-evenly">
-					<div className="border w-full border-gray-600">
-						<SongBox
-							isUserOwner={
-								stationDetail.ownerId === currentUser.id
-							}
-							stationId={+stationId}
-						></SongBox>
+				<div className="flex justify-evenly sm:flex-col">
+					<div className="w-full flex flex-col sm:pt-6">
+						<span className="self-center text-xl">Songs</span>
+						<div className="border border-gray-600">
+							<SongBox
+								isUserOwner={
+									stationDetail.ownerId === currentUser.id
+								}
+								stationId={+stationId}
+							></SongBox>
+						</div>
 					</div>
-					<div className="border w-full border-gray-600">
-						<ChatBox
-							loaded={loaded}
-							stationId={+stationId}
-						></ChatBox>
+					<div className="w-full flex flex-col sm:pt-6">
+						<span className="self-center text-xl">Chat</span>
+						<div className="border w-full border-gray-600">
+							<ChatBox
+								loaded={loaded}
+								stationId={+stationId}
+							></ChatBox>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-col max-w-sm w-full">
+			<div className="flex flex-col max-w-sm w-full flex-shrink-2 sm:pt-6">
+				<span className="text-xl text-center">Settings</span>
 				<div className="pb-5">
 					<Input
 						value={stationName}

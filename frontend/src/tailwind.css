@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+	.flex-shrink-2 {
+		flex-shrink: 2;
+	}
+
+	.h-9\/10 {
+		height: 90%;
+	}
+}
+
 .skip-button {
 	@apply text-teal-300 px-4 py-1 border border-transparent rounded-lg;
 }
@@ -16,5 +26,9 @@
 
 .song-box-container {
 	@apply overflow-y-auto;
+	height: 500px;
+}
+
+.chat-box-container {
 	height: 500px;
 }

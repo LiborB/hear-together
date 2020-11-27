@@ -41,7 +41,7 @@ function App() {
 		}
 	}, []);
 	return (
-		<div className="h-full text-white pb-10 px-4">
+		<div className="h-full text-white pb-10 px-4 sm:px-1">
 			<Navbar></Navbar>
 			<div className="pt-20">
 				<Switch>

@@ -32,12 +32,13 @@ namespace API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IStationService, StationService>();
             services.AddScoped<ISongService, SongService>();
+            services.AddScoped<IChatService, ChatService>();
             services.AddDbContext<HTContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("HearTogetherDatabase")));
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
-            ;
+
             services.AddSignalR();
         }
 

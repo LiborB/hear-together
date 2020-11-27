@@ -4,12 +4,14 @@ import { IPlayingSong } from "../models/song/IPlayingSong";
 import { IQueuedSong } from "../models/song/IQueuedSong";
 import ISongDetail from "../models/song/ISongDetail";
 import IListenerDetail from "../models/station/IListenerDetail";
+import IStationMessage from "../models/station/IStationMessage";
+import { addStationMessage } from "./chat-slice";
 import { addSongToQueue, addUserToStation, playSong, removeSongFromQueue, removeUserFromStation, setIsConnected } from "./connection-slice";
 import { store } from "./store";
 
 export let hubConnection: HubConnection;
 export function startConnection(url: string) {
-    hubConnection = new HubConnectionBuilder()  
+    hubConnection = new HubConnectionBuilder()
         .withUrl(url, {
             skipNegotiation: true,
             transport: HttpTransportType.WebSockets
@@ -37,6 +39,10 @@ export function startConnection(url: string) {
     hubConnection.on("PlaySong", (song: IPlayingSong) => {
         store.dispatch(playSong(song));
     });
+
+    hubConnection.on("StationMessageReceived", (stationMessage: IStationMessage) => {
+        store.dispatch(addStationMessage(stationMessage));
+    })
 
 }
 
