@@ -18,11 +18,16 @@ namespace DataAccess.Hubs
             _songService = songService;
         }
 
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            await _stationService.RemoveStationListenerFromConnectionAsync(Context.ConnectionId);
+        }
+
         public async Task<string> JoinStationRoom(ListenerDetailDTO listenerDetail, int stationId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, stationId.ToString());
             await Clients.OthersInGroup(stationId.ToString()).SendAsync("UserJoinStation", listenerDetail);
-            await _stationService.AddStationListenerAsync(stationId, listenerDetail.UserId);
+            await _stationService.AddStationListenerAsync(stationId, listenerDetail.UserId, Context.ConnectionId);
             return stationId.ToString();
         }
 

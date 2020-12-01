@@ -62,6 +62,7 @@ namespace DataAccess.Services
             stationDetail.Private = station.Private;
             stationDetail.OwnerId = station.OwnerId;
             stationDetail.OwnerUsername = station.Owner.Username;
+            stationDetail.NumberOfListeners = _context.StationListeners.Count(x => x.StationId == stationId);
             return stationDetail;
         }
 
@@ -98,7 +99,7 @@ namespace DataAccess.Services
             return await listeners.ToListAsync();
         }
 
-        public async Task AddStationListenerAsync(int stationId, int userId)
+        public async Task AddStationListenerAsync(int stationId, int userId, string connectionId)
         {
             if (_context.StationListeners.Any(x => x.UserId == userId && x.StationId == stationId))
             {
@@ -109,7 +110,8 @@ namespace DataAccess.Services
             {
                 Created = DateTime.UtcNow,
                 StationId = stationId,
-                UserId = userId
+                UserId = userId,
+                ConnectionId = connectionId
             };
             _context.StationListeners.Add(listener);
             await _context.SaveChangesAsync();
@@ -123,6 +125,16 @@ namespace DataAccess.Services
             {
                 _context.StationListeners.Remove(listener);
                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveStationListenerFromConnectionAsync(string contextConnectionId)
+        {
+            var stationListener = _context.StationListeners.FirstOrDefault(x => x.ConnectionId == contextConnectionId);
+            if (stationListener != null)
+            {
+                _context.StationListeners.Remove(stationListener);
+                await _context.SaveChangesAsync();
             }
         }
     }

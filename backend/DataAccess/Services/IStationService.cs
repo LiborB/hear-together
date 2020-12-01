@@ -11,7 +11,8 @@ namespace DataAccess.Services
         StationDetailDTO GetStationDetail(int stationId);
         List<StationSimpleDTO> GetAllStations(int userId, int skip, int take);
         Task<List<ListenerDetailDTO>> GetStationListenersAsync(int stationId);
-        Task AddStationListenerAsync(int stationId, int userId);
+        Task AddStationListenerAsync(int stationId, int userId, string connectionId);
         Task RemoveStationListenerAsync(int stationId, int userId);
+        Task RemoveStationListenerFromConnectionAsync(string contextConnectionId);
     }
 }

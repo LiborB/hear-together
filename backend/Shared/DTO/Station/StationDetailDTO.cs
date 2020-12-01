@@ -11,6 +11,6 @@ namespace Shared.DTO.Station
         public string OwnerUsername { get; set; }
         public int OwnerId { get; set; }
         public bool Private { get; set; }
-        public IList<ListenerDetailDTO> Listeners { get; set; }
+        public int NumberOfListeners { get; set; }
     }
 }

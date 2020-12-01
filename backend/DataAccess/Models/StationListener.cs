@@ -11,5 +11,6 @@ namespace DataAccess.Models
         public Station Station { get; set; }
         public int StationId { get; set; }
         public DateTime Created { get; set; }
+        public string ConnectionId { get; set; }
     }
 }

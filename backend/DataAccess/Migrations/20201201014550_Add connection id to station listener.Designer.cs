@@ -4,14 +4,16 @@ using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(HTContext))]
-    partial class HTContextModelSnapshot : ModelSnapshot
+    [Migration("20201201014550_Add connection id to station listener")]
+    partial class Addconnectionidtostationlistener
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
